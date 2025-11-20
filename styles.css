@@ -1,0 +1,796 @@
+/* =========================================
+   1. RESET & BASE
+   ========================================= */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Montserrat", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  color: #333;
+  background-color: #f9fafb;
+}
+
+/* Logo pequeñito tipo favicon fijo arriba a la izquierda */
+.top-logo {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 30;
+}
+.top-logo img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+
+/* Enlaces dentro de párrafos: subrayado suave al pasar */
+p a {
+  position: relative;
+  text-decoration: none;
+  color: inherit;
+  padding-bottom: 2px;
+}
+
+p a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 2px;
+  width: 0;
+  background: #5bb5d6; /* azul suave, como el menú */
+  transition: width 0.25s ease;
+}
+
+p a:hover::after {
+  width: 100%;
+}
+
+/* =========================================
+   2. HEADER, HERO & NAVEGACIÓN
+   ========================================= */
+
+/* Hero genérico (portada) */
+.hero {
+  position: relative;
+  height: 360px;
+  background-image: url("assets/img/2.COMUNIONES/Foto Cabecero.png");
+  background-size: cover;
+  background-position: center;
+  padding-top: 110px; /* hueco para el menú más alto al principio */
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+/* Capa oscura sobre la foto */
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.15);
+}
+
+/* NAV FIJO CON TRANSICIÓN */
+.main-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+  padding: 20px 0;
+  background: rgba(0, 0, 0, 0); /* transparente en la parte superior */
+  backdrop-filter: blur(0);
+  transition:
+    background-color 0.35s ease,
+    backdrop-filter 0.35s ease,
+    box-shadow 0.35s ease,
+    padding 0.35s ease,
+    transform 0.25s ease;
+}
+
+.nav-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Logo principal del menú */
+.nav-logo img {
+  width: 88px; /* más grande arriba del todo */
+  height: 88px;
+  border-radius: 50%;
+  border: 3px solid #fff;
+  background: #8bc7e8;
+  transition:
+    width 0.35s ease,
+    height 0.35s ease,
+    transform 0.35s ease;
+}
+
+/* Menú principal */
+.nav-menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 20px;
+  font-size: 14px;
+  text-transform: uppercase;
+  font-weight: 400;
+}
+
+/* Cada elemento del menú puede tener submenú */
+.nav-menu li {
+  position: relative;
+}
+
+.nav-menu li a {
+  position: relative;
+  text-decoration: none;
+  color: #ffffff;
+  padding-bottom: 4px;
+  transition: color 0.35s ease;
+}
+
+/* Subrayado animado en el menú */
+.nav-menu li a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 2px;
+  width: 0;
+  background: #ffffff;
+  transition: width 0.25s ease, background-color 0.35s ease;
+}
+
+.nav-menu li a:hover::after,
+.nav-menu li.active a::after {
+  width: 100%;
+}
+
+/* ---------- Submenú COMUNIONES ---------- */
+
+.submenu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 8px 0;
+  min-width: 210px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 10px;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(6px);
+  transition:
+    opacity 0.2s ease,
+    visibility 0.2s ease,
+    transform 0.2s ease;
+  z-index: 200;
+}
+
+.submenu li {
+  padding: 0;
+}
+
+.submenu li a {
+  display: block;
+  padding: 8px 14px;
+  font-size: 13px;
+  text-transform: none;
+  color: #333333;
+  text-decoration: none;
+  border-bottom: none;
+}
+
+.submenu li a::after {
+  display: none; /* sin línea animada aquí */
+}
+
+.submenu li a:hover {
+  background: rgba(91, 181, 214, 0.12);
+}
+
+/* Mostrar submenú al pasar por Comuniones */
+.has-sub:hover .submenu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* Texto del submenú siempre oscuro */
+.main-nav .submenu a {
+  color: #333333;
+}
+
+/* ---------- Estado al hacer scroll ---------- */
+
+.main-nav.scrolled {
+  background: rgba(255, 255, 255, 0.7); /* blanco semitransparente */
+  backdrop-filter: blur(12px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  padding: 10px 0;
+}
+
+.main-nav.scrolled .nav-menu li a {
+  color: #333333;
+}
+
+.main-nav.scrolled .nav-menu li a::after {
+  background: #5bb5d6; /* subrayado azulito */
+}
+
+.main-nav.scrolled .nav-logo img {
+  width: 60px;
+  height: 60px;
+  transform: translateY(0);
+}
+
+/* Logo central del hero */
+.hero-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.hero-logo {
+  max-width: 420px;
+  width: 75%;
+}
+
+/* =========================================
+   3. INTRO / PRESENTACIÓN
+   ========================================= */
+.intro {
+  background-color: #f4f4f6;
+  padding: 32px 16px 48px;
+  text-align: center;
+  margin-top: -10px; /* ligeramente solapado con el hero */
+  border-top: 1px solid rgba(0, 0, 0, 0.03);
+}
+
+.intro-inner {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.intro h1 {
+  margin: 0 0 16px;
+  font-weight: 500;
+  font-size: 24px;
+}
+
+.intro p {
+  margin: 0 0 24px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.btn-primary {
+  border: none;
+  background-color: #8bc7e8;
+  color: #ffffff;
+  padding: 10px 26px;
+  border-radius: 20px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+}
+
+/* =========================================
+   4. CATEGORÍAS (BLOQUES REDONDOS)
+   ========================================= */
+.categories {
+  padding: 40px 16px 80px;
+}
+
+.categories-grid {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 40px 60px;
+  justify-items: center;
+}
+
+.category-item {
+  text-align: center;
+}
+
+/* Enlace que envuelve título + círculo */
+.category-link {
+  display: inline-block;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.category-item h2 {
+  font-size: 16px;
+  letter-spacing: 1px;
+  margin-bottom: 16px;
+  color: #6ac0e8; /* azul suave */
+}
+
+/* colores de títulos (aprox. al diseño) */
+.category-item h2.pink {
+  color: #f082ac;
+}
+.category-item h2.yellow {
+  color: #f5c94c;
+}
+.category-item h2.teal {
+  color: #47b6b0;
+}
+.category-item h2.orange {
+  color: #f4a53c;
+}
+.category-item h2.green {
+  color: #7bbf4b;
+}
+
+/* Círculo con imagen */
+.category-circle {
+  width: 210px;
+  height: 210px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e0e6ec;
+  box-shadow: 0 0 0 4px #ffffff, 0 2px 9px rgba(0, 0, 0, 0.12);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.category-circle img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* efecto hover (enlace) */
+.category-link:hover .category-circle {
+  transform: scale(1.03);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+}
+
+.category-link:hover h2 {
+  text-decoration: underline;
+}
+
+/* Puntos bajo los círculos (por si se usan) */
+.category-dots {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+}
+.category-dots span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #d4d6db;
+}
+
+/* =========================================
+   5. FOOTER
+   ========================================= */
+.site-footer {
+  font-size: 12px;
+  color: #777;
+}
+
+.footer-top {
+  background-color: #f2f2f4;
+  padding: 18px 16px;
+  text-align: left;
+}
+
+.footer-top p {
+  max-width: 1100px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.footer-bottom {
+  padding: 14px 16px 24px;
+  display: flex;
+  justify-content: center;
+}
+
+.footer-social {
+  display: flex;
+  gap: 14px;
+}
+
+.footer-social a {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid #bdbdbd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  text-decoration: none;
+  color: #555;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.footer-social a:hover {
+  background: #8bc7e8;
+  color: #ffffff;
+  border-color: #8bc7e8;
+}
+
+/* =========================================
+   6. PÁGINA COMUNIONES
+   ========================================= */
+
+/* Hero específico de comuniones */
+.hero-comuniones {
+  background-image: url("assets/img/2.COMUNIONES/Cabecero Comuniones.png");
+  height: 320px;
+}
+
+/* Banda azul con texto explicativo */
+.comuniones-intro-band {
+  background: #8bc7e8;
+  color: #ffffff;
+  padding: 18px 16px;
+  text-align: center;
+}
+
+.comuniones-intro-band p {
+  max-width: 1000px;
+  margin: 0 auto;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+/* Fila de circulitos */
+.comuniones-circles {
+  background: #f4f4f6;
+  padding: 26px 16px 34px;
+}
+
+.comuniones-circles-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 22px;
+}
+
+.com-circle-item {
+  text-align: center;
+  max-width: 150px;
+}
+
+.com-circle-img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin: 0 auto 8px;
+  background: #e0e6ec;
+  box-shadow: 0 0 0 4px #ffffff, 0 2px 6px rgba(0, 0, 0, 0.08);
+  position: relative; /* apilar imágenes */
+}
+
+.com-circle-img img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+/* imagen visible en cada momento (carrusel JS) */
+.com-circle-img img.active {
+  opacity: 1;
+}
+
+.com-circle-item h3 {
+  font-size: 12px;
+  margin: 0;
+}
+
+/* Paneles grandes tipo carrusel */
+.comuniones-panels {
+  padding: 30px 16px 60px;
+  background: #ffffff;
+}
+
+.comuniones-panels-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.com-panel {
+  background: #f9fafb;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+}
+
+.com-panel img {
+  width: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.com-panel-dots {
+  padding: 8px 0 10px;
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+}
+
+.com-panel-dots span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #d1d9e6;
+}
+
+/* =========================================
+   7. PRELOADER
+   ========================================= */
+#preloader {
+  position: fixed;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.6); /* fondo semitransparente */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+.preloader-inner img {
+  width: 90px;
+  height: 90px;
+  animation: spinLogo 1.2s linear infinite;
+}
+
+/* Animación de giro del logo */
+@keyframes spinLogo {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Ocultar preloader cuando el body tiene .loaded */
+body.loaded #preloader {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* =========================================
+   8. ANIMACIONES DE ENTRADA / SCROLL
+   ========================================= */
+
+/* Fade + desplazamiento al hacer scroll */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* =========================================
+   9. RESPONSIVE
+   ========================================= */
+
+@media (max-width: 900px) {
+  .nav-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .nav-menu {
+    flex-wrap: wrap;
+    background: rgba(0, 0, 0, 0.4);
+    padding: 6px 10px;
+    border-radius: 999px;
+  }
+
+  .main-nav.scrolled .nav-menu {
+    background: transparent; /* sin pastilla oscura cuando ya es blanco */
+  }
+
+  .hero {
+    height: 300px;
+  }
+
+  /* comuniones: paneles de 3 → 2 columnas */
+  .comuniones-panels-inner {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .categories-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .category-circle {
+    width: 170px;
+    height: 170px;
+  }
+
+  .hero-logo {
+    max-width: 320px;
+  }
+}
+
+@media (max-width: 640px) {
+  .comuniones-circles-inner {
+    gap: 18px;
+  }
+
+  .comuniones-panels-inner {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 540px) {
+  .categories-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .intro {
+    padding-inline: 20px;
+  }
+
+  .footer-top p {
+    text-align: center;
+  }
+}
+
+.com-circle-img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin: 0 auto 8px;
+  background: #e0e6ec;
+  box-shadow: 0 0 0 4px #ffffff, 0 2px 6px rgba(0, 0, 0, 0.08);
+  position: relative;
+}
+
+/* ambas imágenes apiladas */
+.com-circle-img img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 0.4s ease;
+}
+
+/* por defecto: se ve la 1ª, se esconde la 2ª */
+.com-circle-img img:nth-child(1) {
+  opacity: 1;
+}
+.com-circle-img img:nth-child(2) {
+  opacity: 0;
+}
+
+/* al pasar el ratón por el “circulito” → se muestra la 2ª */
+.com-circle-item:hover .com-circle-img img:nth-child(1) {
+  opacity: 0;
+}
+.com-circle-item:hover .com-circle-img img:nth-child(2) {
+  opacity: 1;
+}
+
+/* =========================
+   LOGO FLOTANTE CONTACTO
+   ========================= */
+
+.floating-logo {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 120;
+  opacity: 0;
+  transform: translateY(16px) scale(0.9) rotate(-4deg);
+  pointer-events: auto;
+}
+
+.floating-logo a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.12); /* grisáceo suave */
+  padding: 8px;
+  border-radius: 50%;              /* que quede redondito */
+  backdrop-filter: blur(4px);      /* opcional, efecto glass */
+}
+
+
+/* Animación de entrada cuando la página ha "cargado" (body.loaded ya existe por el preloader) */
+body.loaded .floating-logo {
+  animation: floatingLogoIn 0.7s ease-out forwards 0.1s;
+}
+
+.floating-logo img {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+/* Hover: un poco más grande y girado */
+.floating-logo:hover img {
+  transform: scale(1.1) rotate(-10deg);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.22);
+}
+
+@keyframes floatingLogoIn {
+  0% {
+    opacity: 0;
+    transform: translateY(16px) scale(0.9) rotate(-8deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotate(0deg);
+  }
+}
+
+/* En pantallas muy pequeñas puedes hacerlo algo más pequeño si quieres */
+@media (max-width: 480px) {
+  .floating-logo {
+    right: 14px;
+    bottom: 14px;
+  }
+
+  .floating-logo img {
+    width: 60px;
+    height: 60px;
+  }
+}
