@@ -1,6 +1,6 @@
 /* =========================================
-   1. RESET & BASE
-   ========================================= */
+            1. RESET & BASE
+========================================= */
 *,
 *::before,
 *::after {
@@ -408,7 +408,7 @@ p a:hover::after {
 }
 
 /* =========================================
-   6. PÁGINA COMUNIONES
+   5. PÁGINA COMUNIONES
    ========================================= */
 
 /* Hero específico de comuniones */
@@ -526,8 +526,8 @@ p a:hover::after {
 }
 
 /* =========================================
-   7. PRELOADER
-   ========================================= */
+            6. PRELOADER
+========================================= */
 #preloader {
   position: fixed;
   inset: 0;
@@ -580,111 +580,42 @@ body.loaded #preloader {
 }
 
 /* =========================================
-   9. RESPONSIVE
-   ========================================= */
+            9. RESPONSIVE
+========================================= */
 
-@media (max-width: 900px) {
+@media (max-width: 1200px) {
   .nav-inner {
     flex-direction: column;
     align-items: flex-start;
     gap: 8px;
   }
 
-  .nav-menu {
-    flex-wrap: wrap;
-    background: rgba(0, 0, 0, 0.4);
-    padding: 6px 10px;
-    border-radius: 999px;
+  .comuniones-panels-inner {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  /* Si estás usando el menú como PANEL (como en tu bloque de "MÓVIL: panel desplegable"),
+     no uses flex-wrap + pastilla negra aquí. Déjalo como panel blanco sólido. */
+  .nav-menu{
+    background: #ffffff;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  /* Opcional: cuando el menú está abierto, la barra superior también blanco sólido */
+  .main-nav.menu-open{
+    background: #ffffff;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
   }
 
   .main-nav.scrolled .nav-menu {
-    background: transparent; /* sin pastilla oscura cuando ya es blanco */
+    background: #ffffff; /* o transparent si quieres, pero si buscas blanco sólido, déjalo blanco */
   }
 
   .hero {
     height: 300px;
   }
-
-  /* comuniones: paneles de 3 → 2 columnas */
-  .comuniones-panels-inner {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (max-width: 768px) {
-  .categories-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .category-circle {
-    width: 170px;
-    height: 170px;
-  }
-
-  .hero-logo {
-    max-width: 320px;
-  }
-}
-
-@media (max-width: 640px) {
-  .comuniones-circles-inner {
-    gap: 18px;
-  }
-
-  .comuniones-panels-inner {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 540px) {
-  .categories-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .intro {
-    padding-inline: 20px;
-  }
-
-  .footer-top p {
-    text-align: center;
-  }
-}
-
-.com-circle-img {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  overflow: hidden;
-  margin: 0 auto 8px;
-  background: #e0e6ec;
-  box-shadow: 0 0 0 4px #ffffff, 0 2px 6px rgba(0, 0, 0, 0.08);
-  position: relative;
-}
-
-/* ambas imágenes apiladas */
-.com-circle-img img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: opacity 0.4s ease;
-}
-
-/* por defecto: se ve la 1ª, se esconde la 2ª */
-.com-circle-img img:nth-child(1) {
-  opacity: 1;
-}
-.com-circle-img img:nth-child(2) {
-  opacity: 0;
-}
-
-/* al pasar el ratón por el “circulito” → se muestra la 2ª */
-.com-circle-item:hover .com-circle-img img:nth-child(1) {
-  opacity: 0;
-}
-.com-circle-item:hover .com-circle-img img:nth-child(2) {
-  opacity: 1;
 }
 
 /* =========================
@@ -1051,7 +982,7 @@ body.loaded .floating-logo {
 }
 
 /* Responsive */
-@media (max-width: 900px) {
+@media (max-width: 1200px) {
   .how-work-steps {
     grid-template-columns: 1fr;
   }
@@ -1160,14 +1091,14 @@ body.loaded .floating-logo {
 }
 
 /* Ajustes responsive */
-@media (max-width: 900px){
+@media (max-width: 1200px){
   .nav-img-link img{
     height: 20px;
   }
 }
 
 /* ====== MÓVIL: panel desplegable ====== */
-@media (max-width: 900px) {
+@media (max-width: 1200px) {
   .nav-inner{
     justify-content: flex-end;
     gap: 12px;
@@ -1292,4 +1223,144 @@ body.loaded .floating-logo {
 @keyframes fadeInMobile{
   from { opacity: 0; transform: translateY(-4px); }
   to   { opacity: 1; transform: translateY(0); }
+}
+
+/* =========================================
+            MARCA.HTML
+   ========================================= */
+
+/* === MARCA: grid 3 en 3 centrado === */
+.brand-grid{
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 24px 16px 8px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 34px;
+  justify-items: center;   /* centra cada tarjeta en su celda */
+}
+
+/* Tarjeta */
+.brand-card{
+  width: 100%;
+  max-width: 260px;        /* controla el ancho del card */
+  aspect-ratio: 1 / 1;     /* cuadrado como en la imagen */
+  background: #fff;
+  border-radius: 6px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  margin: 0;               /* quita márgenes por defecto del figure */
+}
+
+/* Imagen dentro del card */
+.brand-card img{
+  width: 100%;
+  height: 100%;
+  object-fit: contain;     /* no recorta logos */
+  display: block;
+}
+
+/* Responsive */
+@media (max-width: 900px){
+  .brand-grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 520px){
+  .brand-grid{ grid-template-columns: 1fr; }
+  .brand-card{ max-width: 320px; }
+}
+
+/* === INTRO (estilo tipo final-cta) === */
+.page-intro{
+  padding: 26px 0 10px;
+}
+
+.page-intro-inner{
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 22px 18px;
+  background: rgba(255,255,255,.92);
+  border: 1px solid rgba(0,0,0,.06);
+  border-radius: 18px;
+  box-shadow: 0 10px 28px rgba(0,0,0,.10);
+  position: relative;
+  text-align: center;
+}
+
+.page-intro-inner::before{
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -10px;
+  transform: translateX(-50%);
+  width: 64px;
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(233, 108, 170, .55); /* tono rosado */
+}
+
+.page-intro-inner p{
+  margin: 0;
+  font-family: "Montserrat", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-size: 15px;
+  line-height: 1.75;
+  color: rgba(0,0,0,.72);
+  max-width: 78ch;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (max-width: 900px){
+  .page-intro{ padding: 18px 0 6px; }
+  .page-intro-inner{ padding: 18px 14px; border-radius: 16px; }
+  .page-intro-inner p{ font-size: 14.5px; }
+}
+
+
+/* === HOVER cards marca === */
+.brand-card{
+  transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+  border: 1px solid rgba(0,0,0,.06);
+  will-change: transform;
+}
+
+.brand-card:hover{
+  transform: translateY(-6px);
+  box-shadow: 0 16px 40px rgba(0,0,0,.16);
+}
+
+.brand-card img{
+  transition: transform .22s ease;
+}
+
+.brand-card:hover img{
+  transform: scale(1.04);
+}
+
+/* Accesibilidad: misma animación al navegar con teclado */
+.brand-card:focus-within{
+  transform: translateY(-6px);
+  box-shadow: 0 16px 40px rgba(0,0,0,.16);
+}
+
+.brand-card:focus-within img{
+  transform: scale(1.04);
+}
+
+/* Respeta usuarios con reducción de movimiento */
+@media (prefers-reduced-motion: reduce){
+  .brand-card,
+  .brand-card img{
+    transition: none !important;
+  }
+  .brand-card:hover,
+  .brand-card:focus-within{
+    transform: none !important;
+  }
+  .brand-card:hover img,
+  .brand-card:focus-within img{
+    transform: none !important;
+  }
 }
